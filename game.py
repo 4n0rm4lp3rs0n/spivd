@@ -27,7 +27,7 @@ def draw_interface(screen, player, icons, level, wave):
     spacing = 26
     icon_offset_x = 65
     icon_offset_y = 2
-    font = pygame.font.SysFont("Arial", 20)
+    font = pygame.font.Font('./Audiowide,Orbitron,Press_Start_2P,VT323/Helvetica-Bold.ttf', 18)
 
     # Background bar
     pygame.draw.rect(screen, (20, 20, 20), (0, 0, screen_width, bar_height))
@@ -59,7 +59,7 @@ def draw_interface(screen, player, icons, level, wave):
     screen.blit(level_text, wave_rect)
 
     # === Về menu button ===
-    menu_font = pygame.font.SysFont("Arial", 18)
+    menu_font = font
     menu_text = menu_font.render("Về menu", True, (255, 100, 100))
     menu_rect = menu_text.get_rect(center=(screen_width // 2, score_rect.bottom + 16))
     screen.blit(menu_text, menu_rect)
@@ -68,8 +68,8 @@ def draw_interface(screen, player, icons, level, wave):
 
 def show_pause_menu(screen):
     clock = pygame.time.Clock()
-    font = pygame.font.SysFont("Arial", 28)
-    big_font = pygame.font.SysFont("Arial", 36)
+    font = pygame.font.Font('./Audiowide,Orbitron,Press_Start_2P,VT323/Helvetica-Bold.ttf', 28)
+    big_font = pygame.font.Font('./Audiowide,Orbitron,Press_Start_2P,VT323/Helvetica-Bold.ttf', 36)
 
     background = screen.copy()
     overlay = pygame.Surface(screen.get_size(), pygame.SRCALPHA)
