@@ -1,6 +1,6 @@
 import pygame, sys, os
 import game
-from classes import SFX, load_bgm, BGM
+from classes import SFX, load_bgm, BGM, play_bgm, bgm_vol
 from settings import load_txt_settings, settings_menu_from_txt
 # === Screen and Settings ===
 WIDTH, HEIGHT = 720, 640
@@ -145,8 +145,8 @@ def clear_scores_but_keep_header(filename="score.txt"):
 
 # === Sounds ===
 pygame.mixer.init()
-pygame.mixer.music.load(BGM["menu"])
-pygame.mixer.music.play(-1)
+load_bgm()
+play_bgm(BGM["menu"], bgm_vol, fade_out=1000, fade_in=1000)
 
 def update_sfx_volume(sfx_dict, volume_value):
     for sound in sfx_dict.values():

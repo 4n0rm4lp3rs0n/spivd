@@ -213,6 +213,16 @@ def bgms(volume = 1.0):
     pygame.mixer.music.set_volume(volume)
     return bgm
 
+def play_bgm(track_path, volume, fade_out=1000, fade_in=1000):
+    """Fade out current music and fade in a new track."""
+    pygame.mixer.music.fadeout(fade_out)
+    pygame.time.delay(fade_out)  # Wait for fade to finish
+
+    pygame.mixer.music.load(track_path)
+    pygame.mixer.music.set_volume(volume)
+    pygame.mixer.music.play(-1, fade_ms=fade_in)
+
+
 load_sfx()
 load_bgm()
     

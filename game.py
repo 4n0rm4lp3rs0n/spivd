@@ -1,11 +1,10 @@
 # main.py
 import pygame, classes, random
-from classes import Ship, Enemy, Loot, Boss, SFX, load_bgm, BGM, bgm_vol
+from classes import Ship, Enemy, Loot, Boss, SFX, load_bgm, BGM, bgm_vol, play_bgm
 from levels import LEVEL_DATA, spawn_enemies_for_wave, spawn_boss_for_level
 from main import save_score, input_player_name
 from settings import load_txt_settings
 
-settings = load_txt_settings()
 
 def draw_bossbar(screen, boss, width=500, height=20):
     x = (classes.WIDTH - width) // 2
@@ -117,9 +116,8 @@ def start_game():
 
     load_bgm()
     current_bgm_key = f"lv{current_level}"
-    pygame.mixer.music.load(BGM.get(current_bgm_key, BGM["lv1"]))
-    pygame.mixer.music.set_volume(bgm_vol)
-    pygame.mixer.music.play(-1)
+    track = BGM.get(current_bgm_key, BGM["lv1"])
+    play_bgm(track, bgm_vol, fade_out=1000, fade_in=1000)
     
     # Create entities
     player: Ship = Ship(classes.state())
@@ -151,11 +149,15 @@ def start_game():
                     and now - player.last_bomb_time > player.bomb_cd):
                         player.bombs(enemy_proj, enemies, now)
                 elif intf_rect.collidepoint(event.pos):
+                    SFX["pause"].play()
                     if show_pause_menu(screen):
+                        play_bgm(BGM["menu"], bgm_vol, fade_out=1000, fade_in=1000)
                         return  # Player chose to return to menu
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
+                    SFX["pause"].play()
                     if show_pause_menu(screen):
+                        play_bgm(BGM["menu"], bgm_vol, fade_out=1000, fade_in=1000)
                         return
         # Clear screen
         screen.fill((0, 0, 0))
@@ -186,11 +188,10 @@ def start_game():
                     spawn_enemies_for_wave(current_level, current_wave, all_sprites, enemies, player = player)
                     ship_projectiles.empty()
                     enemy_proj.empty()
+                    
                     current_bgm_key = f"lv{current_level}"
-                    if current_bgm_key in BGM:
-                        pygame.mixer.music.load(BGM[current_bgm_key])
-                        pygame.mixer.music.set_volume(bgm_vol)
-                        pygame.mixer.music.play(-1)
+                    track = BGM.get(current_bgm_key, BGM["lv1"])
+                    play_bgm(track, bgm_vol, fade_out=1000, fade_in=1000)
                 else:
                     running = False
                     try:
