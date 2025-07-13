@@ -117,7 +117,7 @@ def start_game():
     load_bgm()
     current_bgm_key = f"lv{current_level}"
     track = BGM.get(current_bgm_key, BGM["lv1"])
-    play_bgm(track, bgm_vol, fade_out=1000, fade_in=1000)
+    play_bgm(track, bgm_vol, fade_out=0, fade_in=0)
     
     # Create entities
     player: Ship = Ship(classes.state())
@@ -191,7 +191,7 @@ def start_game():
                     
                     current_bgm_key = f"lv{current_level}"
                     track = BGM.get(current_bgm_key, BGM["lv1"])
-                    play_bgm(track, bgm_vol, fade_out=1000, fade_in=1000)
+                    play_bgm(track, bgm_vol, fade_out=0, fade_in=0)
                 else:
                     running = False
                     try:

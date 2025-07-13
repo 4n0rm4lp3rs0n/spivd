@@ -11,6 +11,8 @@ SOUND = 0
 _BASE_HP = 1
 _BASE_STR = 20
 _BASE_SPD = 8
+last_shield_sound_time = 0
+shield_sound_cooldown = 5000
 
 pygame.mixer.init()
 settings = load_txt_settings()
@@ -189,6 +191,10 @@ def sfx(volume = 1.0):
         "victory1" : pygame.mixer.Sound('./sound/victory.mp3'),
         "victory2" : pygame.mixer.Sound('./sound/victory2.mp3'),
         "defeat" : pygame.mixer.Sound('./sound/defeat.mp3'),
+        "ship_shoot" : pygame.mixer.Sound('./sound/ship.ogg'),
+        "phase1" : pygame.mixer.Sound('./sound/boss_phase1.ogg'),
+        "shield" : pygame.mixer.Sound('./sound/shield.ogg'),
+        # "phase1" : pygame.mixer.Sound('./sound/boss_phase1.ogg'),
     }
     
     for sound in sounds.values():
@@ -338,6 +344,7 @@ class Ship(Entity):
         img = proj[img_idx]
         filter = None
         if pygame.time.get_ticks() - self.last_shot > self.shooting_cd:
+            # SFX["ship_shoot"].play()
             if lvl == 1:
                 projectile = Projectile(
                     self.rect.centerx, self.rect.centery - 20,
@@ -682,6 +689,7 @@ class Boss(Enemy):
             
             #Shootings
             if now - self.last_lane_shot > 1000:
+                SFX["phase1"].play()
                 bspeed = 4
                 spread = 10
                 for angle in range(0, 360, spread):
@@ -991,6 +999,11 @@ class Loot(pygame.sprite.Sprite):
             SFX["power"].play()
             player.level = min(player.level + 0.25, 4)
         elif self.loot_type == 2:  # Shield
+            global last_shield_sound_time
+            now = pygame.time.get_ticks()
+            if now - last_shield_sound_time > shield_sound_cooldown:
+                SFX["shield"].play()
+                last_shield_sound_time = now
             player.invincible = True
             player.grace_period()
         elif self.loot_type == 3:  # Bomb
