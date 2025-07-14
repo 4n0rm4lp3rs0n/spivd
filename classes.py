@@ -344,7 +344,7 @@ class Ship(Entity):
         img = proj[img_idx]
         filter = None
         if pygame.time.get_ticks() - self.last_shot > self.shooting_cd:
-            # SFX["ship_shoot"].play()
+            SFX["ship_shoot"].play()
             if lvl == 1:
                 projectile = Projectile(
                     self.rect.centerx, self.rect.centery - 20,

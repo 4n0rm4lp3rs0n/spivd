@@ -1,6 +1,6 @@
-Âm lượng tổng: 38
+Âm lượng tổng: 29
 Âm lượng nhạc: 9
-Âm lượng âm thanh: 44
+Âm lượng âm thanh: 33
 Di chuyển lên: UP
 Di chuyển xuống: DOWN
 Di chuyển trái: LEFT
